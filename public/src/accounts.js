@@ -14,6 +14,16 @@ function getTotalNumberOfBorrows(account, books) {
   let result = 0;
   books.forEach(book => {
     const borrows = book.borrows;
+    
+    /* const callback = (prev, current) => {
+      if(current.id === id) {
+        return prev + 1;
+      } else {
+        return prev;
+      }
+    }
+    result += borrows.reduce(callback, 0); */
+    
     borrows.forEach(borrow => {
       if(borrow.id === id){
         result++;
@@ -23,7 +33,8 @@ function getTotalNumberOfBorrows(account, books) {
   return result;
 }
 
-function getBooksPossessedByAccount(account, books, authors) {}
+function getBooksPossessedByAccount(account, books, authors) {
+}
 
 module.exports = {
   findAccountById,
