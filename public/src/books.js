@@ -3,7 +3,10 @@ function findAuthorById(authors, id) {
   return result;
 }
 
-function findBookById(books, id) {}
+function findBookById(books, id) {
+  const result = books.find(book => book.id === id);
+  return result;
+}
 
 function partitionBooksByBorrowedStatus(books) {}
 
