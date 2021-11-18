@@ -11,23 +11,28 @@ function getBooksBorrowedCount(books) {
   return result.length;
 }
 
-function getMostCommonGenres(books) {
-  const genres = books.map(book => book.genre);
-  let result = [];
-  genres.forEach( genre => {
-    const resultObj = { name: genre, count: 1};
-    if(result.find(r => r.name === genre)){
-      const found = result.find(r => r.name === genre);
-      const i = result.indexOf(found);
-      result[i].count++;
-    } else {
-      result.push(resultObj);
-    }
-  });
-  result.sort( (genre1, genre2) => genre1.count > genre2.count ? -1 : 1 );
-  if(result.length > 5){
-    result = result.slice(0, 5);
+function reduceOutputToFiveResults(input){
+  let result = input;
+  if(input.length > 5){
+    result = input.slice(0, 5);
   }
+  return result;
+}
+
+function getMostCommonGenres(books) {
+  const callback = (acc, bookObj) => {
+    const genre = bookObj.genre;
+    const genreIndex = acc.findIndex(book => book.name === bookObj.genre);
+    if (genreIndex >= 0){
+      acc[genreIndex].count++;
+    } else {
+      acc.push({ name : genre, count: 1});
+    }
+    return acc;
+  }
+  let result = books.reduce(callback, []);
+  result.sort( (genre1, genre2) => genre1.count > genre2.count ? -1 : 1 );
+  result = reduceOutputToFiveResults(result);
   return result;
 }
 
@@ -36,10 +41,8 @@ function getMostPopularBooks(books) {
   let result = [];
   sorted.forEach(book => {
     result.push({ name : book.title, count: book.borrows.length });
-  });
-  if(result.length > 5){
-    result = result.slice(0, 5);
-  }
+  }); 
+  result = reduceOutputToFiveResults(result);
   return result;
 }
 
@@ -48,12 +51,12 @@ function getMostPopularAuthors(books, authors) {
   let result = [];
   sorted.forEach(book => {
     const author = authors.find(author => author.id === book.authorId);
-    const authorName = `${author.name.first} ${author.name.last}`;
-    result.push({ name: authorName, count: book.borrows.length });
+    const name = `${author.name.first} ${author.name.last}`;
+    const count = book.borrows.length;
+    const resultObj = { name, count };
+    result.push(resultObj);
   });
-  if(result.length > 5){
-    result = result.slice(0, 5);
-  }
+  result = reduceOutputToFiveResults(result);
   return result;
 }
 

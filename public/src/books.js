@@ -24,8 +24,8 @@ function getBorrowersForBook(book, accounts) {
     account.returned = returned;
     result.push(account);
   });
-  while(result.length > 10) {
-    result.pop();
+  if(result.length > 10) {
+    result = result.slice(0, 10);
   }
   return result;
 }

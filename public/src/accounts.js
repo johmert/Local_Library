@@ -29,7 +29,7 @@ function getBooksPossessedByAccount(account, books, authors) {
   const result = checkedOut.filter(book => book.borrows[0].id === id);
   result.forEach(book => {
     const authorId = book.authorId;
-    const author = authors.find(b => b.id === authorId);
+    const author = authors.find(bookInfo => bookInfo.id === authorId);
     book.author = author;
   });
   return result;
