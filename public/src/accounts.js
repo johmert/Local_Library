@@ -13,17 +13,7 @@ function getTotalNumberOfBorrows(account, books) {
   const id = account.id;
   let result = 0;
   books.forEach(book => {
-    const borrows = book.borrows;
-  
-    /* const callback = (prev, current) => {
-      if(current.id === id) {
-        return prev + 1;
-      } else {
-        return prev;
-      }
-    }
-    result += borrows.reduce(callback, 0); */
-    
+    const borrows = book.borrows;    
     borrows.forEach(borrow => {
       if(borrow.id === id){
         result++;
